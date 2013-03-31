@@ -3,15 +3,14 @@ import urllib2, urllib
 import sys
 import re
 
-error_msg = '查理没用...没能帮到您.\nbtw,您听歌的品味真独特.'
 class SharkSearcher():
   def __init__(self):
-    pass
+    self.error_msg = "查理没用...查不到...\nbtw,您听歌的品味真独特.\n您确认格式正确?(歌名 歌手名)"
   
   def process_lrc(self, lrc):
     return ''.join( lrc.split('<br />') )
   
-  def feed(self, song, artist):
+  def feed(self, song, artist=None):
     if not artist: artist = ''
     else: artist = '+' + artist
     myurl = 'http://www.xiami.com/search?key=' + song + artist
@@ -27,19 +26,19 @@ class SharkSearcher():
     try:
       html = urllib2.urlopen(req).read()
     except BaseException:
-      return error_msg
+      return self.error_msg
     pattern = r'<td class="song_name"><a target="_blank" href="(.+?)" title="'
     try:
       song_url = re.findall(pattern, html)[0]
     except BaseException:
-      return error_msg
+      return self.error_msg
     
     pattern = r'<div class="lrc_main">([\s\S]+?)</div>'
     req = urllib2.Request('http://www.xiami.com'+song_url, data, headers)
     try:
       html = urllib2.urlopen(req).read()
     except BaseException:
-      return error_msg
+      return self.error_msg
     lrc = re.findall(pattern, html)[0]
     
     return self.process_lrc(lrc)
