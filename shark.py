@@ -37,8 +37,8 @@ class SharkSearcher():
       result = re.findall( pattern, html)
       # 0 --- href ;    1 --- song name ;   2 --- artist name ;
       for i in range( len(result) ):
-        if result[i][1].find( args[0] ) != -1 :
-          if ( len(args) < 2 or self.name_match( result[i][2], args[1] ) ):
+        if result[i][1].lower().find( args[0].lower() ) != -1 :
+          if ( len(args) < 2 or self.name_match( result[i][2].lower(), args[1].lower() ) ):
             song_urls.append( result[i][0] )
             
     except BaseException:

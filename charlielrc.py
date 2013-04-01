@@ -6,8 +6,8 @@ import hashlib
 import xml.etree.ElementTree as ET
 from shark import *
 
-tips = "查理歌词 v1.0\n请输入'歌曲名 歌手名'进行查找(中间是空格的说.)"
-error_msg = "查理没用...查不到...\nbtw,您听歌的品味真独特.\n您确认格式正确?(歌名 歌手名)\n好啦还是人家太弱了啦...TAT"
+tips = "查理歌词 v1.0\n请输入'歌曲名@歌手名'进行查找(中间是@的说.)"
+error_msg = "查理没用...查不到...\nbtw,您听歌的品味真独特.\n您确认格式正确?(歌名@歌手名)\n好啦还是人家太弱了啦...TAT"
   
 
 app = Flask(__name__)
@@ -51,14 +51,14 @@ def wechat_auth():
   if Content == 'h':
     Content = tips
   else:
-    args = Content.split(' ')
+    args = Content.split('@')
     shark = SharkSearcher()
     try:
       for i in range(len(args)): args[i] = args[i].encode('utf8') # pass test
       Content = shark.feed( args )
       if Content == None : Content = error_msg
     except BaseException:
-      Content = "HEHE"
+      Content = error_msg
   response = make_response( reply % (FromUserName, ToUserName, str(int(time.time())), Content ) )
   response.content_type = 'application/xml'
   return response
