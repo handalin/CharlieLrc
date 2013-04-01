@@ -30,7 +30,6 @@ class SharkSearcher():
     try:
       html = urllib2.urlopen(req).read()
     except BaseException:
-      return '测试中...A'
       return None
     song_urls = []
     try:
@@ -43,7 +42,6 @@ class SharkSearcher():
             song_urls.append( result[i][0] )
             
     except BaseException:
-      return '测试中...B'
       return None
 
     try:
@@ -52,6 +50,5 @@ class SharkSearcher():
       html = urllib2.urlopen(req).read()
       lrc = re.findall(pattern, html)[0]
     except BaseException:
-      return '测试中...C'
       return None
     return self.process_lrc(lrc)
