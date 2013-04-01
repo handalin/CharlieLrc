@@ -28,7 +28,7 @@ def teardown_request(exception):
 def wechat_auth():
   c = g.db.cursor()
   if request.method == 'GET':
-    token = 'handalin'
+    token = 'hehe'
     query = request.args
     signature = query.get('signature', '')
     timestamp = query.get('timestamp', '')
